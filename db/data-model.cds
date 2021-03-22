@@ -1,11 +1,14 @@
 namespace my.bookshop;
-using { Country, managed } from '@sap/cds/common';
+using { Country, Currency, managed, cuid } from '@sap/cds/common';
 
 entity Books {
   key ID : Integer;
-  title  : localized String;
+  title  : localized String(111);
   author : Association to Authors;
+  descr  : localized String(1111);
   stock  : Integer;
+  price  : Decimal(9,2);
+  currency : Currency;
 }
 
 entity Authors {
@@ -14,9 +17,13 @@ entity Authors {
   books  : Association to many Books on books.author = $self;
 }
 
-entity Orders : managed {
-  key ID  : UUID;
-  book    : Association to Books;
-  country : Country;
-  amount  : Integer;
+entity Orders : cuid, managed {
+  OrderNo   : String;
+  book      : Association to Books;
+  country   : Country;
+  currency  : Currency;  
+  quantity  : Integer;
+  amount    : Decimal(9,2); 
+  tax       : Integer; 
+  total     : Decimal(9,2) 
 }
