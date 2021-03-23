@@ -11,6 +11,7 @@
     "@sap/hana-client": "^2.6.61"
   },
   "devDependencies": {
+    "@sap/ux-specification": "^1.84.6",
     "sqlite3": "5.0.0"
   },
   "scripts": {
@@ -25,5 +26,9 @@
         "kind": "sql"
       }
     }
-  }
+  },
+  "sapux": [
+    "app/books",
+    "app/orders"
+  ]
 }

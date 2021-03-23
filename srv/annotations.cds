@@ -166,19 +166,19 @@ UI : {
     amount  @(
         title       : '{i18n>amount}',
         description : '{i18n>amount}',
-        Common.FieldControl : #ReadOnly
+        //Common.FieldControl : #ReadOnly
         );
 
     tax  @(
         title       : '{i18n>tax}',
         description : '{i18n>tax}',
-        Common.FieldControl : #ReadOnly
+        //Common.FieldControl : #ReadOnly
         );
 
     total  @(
         title       : '{i18n>total}',
         description : '{i18n>total}',
-        Common.FieldControl : #ReadOnly
+        //Common.FieldControl : #ReadOnly
         );
 };
 
