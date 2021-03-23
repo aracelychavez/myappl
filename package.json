@@ -1,34 +1,64 @@
 {
-  "name": "myappl",
-  "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
-  "license": "UNLICENSED",
-  "private": true,
-  "dependencies": {
-    "@sap/cds": "^4",
-    "express": "^4",
-    "@sap/hana-client": "^2.6.61"
-  },
-  "devDependencies": {
-    "@sap/ux-specification": "^1.84.6",
-    "sqlite3": "5.0.0"
-  },
-  "scripts": {
-    "start": "cds run"
-  },
-  "cds": {
-    "hana": {
-      "deploy-format": "hdbtable"
+    "name": "myappl",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/audit-logging": "^5.0.0",
+        "@sap/cds": "^4",
+        "@sap/hana-client": "^2.7",
+        "@sap/xsenv": "^3.1.0",
+        "@sap/xssec": "^3.1.2",
+        "express": "^4",
+        "passport": "^0.4.1"
     },
-    "requires": {
-      "db": {
-        "kind": "sql"
-      }
-    }
-  },
-  "sapux": [
-    "app/books",
-    "app/orders"
-  ]
+    "devDependencies": {
+        "@sap/ux-specification": "^1.84.6",
+        "sqlite3": "5.0.0"
+    },
+    "scripts": {
+        "start": "cds run"
+    },
+    "cds": {
+        "hana": {
+            "deploy-format": "hdbtable"
+        },
+        "requires": {
+            "[production]": {
+                "uaa": {
+                    "kind": "xsuaa"
+                }
+            },
+            "auth": {
+                "[production]": {
+                    "strategy": "JWT"
+                },
+                "[development]": {
+                    "strategy": "mock",
+                    "users": {
+                        "alice": {
+                            "roles": [
+                                "admin",
+                                "viewer"
+                            ]
+                        },
+                        "bob": {
+                            "roles": [
+                                "viewer"
+                            ]
+                        }
+                    }
+                }
+            },
+            "db": {
+                "kind": "sql"
+            }
+        }
+    },
+    "sapux": [
+        "app/books",
+        "app/orders"
+    ]
 }
