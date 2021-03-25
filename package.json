@@ -26,10 +26,8 @@
             "deploy-format": "hdbtable"
         },
         "requires": {
-            "[production]": {
-                "uaa": {
-                    "kind": "xsuaa"
-                }
+            "uaa": {
+                "kind": "xsuaa"
             },
             "auth": {
                 "[production]": {
@@ -56,9 +54,5 @@
                 "kind": "sql"
             }
         }
-    },
-    "sapux": [
-        "app/books",
-        "app/orders"
-    ]
+    }
 }
