@@ -17,19 +17,43 @@ build-parameters:
       - npx -p @sap/cds-dk cds build --production
 
 modules:
+   # --------------------- APP MODULE ------------------------
+ - name: myappl-app
+ # ------------------------------------------------------------
+   type: approuter.nodejs
+   path: app
+   parameters:
+     disk-quota: 1024M
+     memory: 256M
+   requires:
+    # Resources extracted from CAP configuration
+    - name: myappl-uaa
+    - name: srv-api
+      group: destinations
+      properties:
+        name: srv-api
+        url: '~{url}'
+        timeout: 60000
+        forwardAuthToken: true
+
  # --------------------- SERVER MODULE ------------------------
  - name: myappl-srv
  # ------------------------------------------------------------
    type: nodejs
    path: gen/srv
+   parameters:
+     disk-quota: 1024M
+     memory: 256M
+   properties:
+     EXIT: 1
    requires:
     # Resources extracted from CAP configuration
-    - name: myappl-uaa
     - name: myappl-db
+    - name: myappl-uaa
    provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
-        srv-url: ${default-url}
+        url: ${default-url}
 
  # -------------------- SIDECAR MODULE ------------------------
  - name: myappl-db-deployer
@@ -38,25 +62,17 @@ modules:
    path: gen/db  
    parameters:
      buildpack: nodejs_buildpack
+     disk-quota: 1024M
+     memory: 256M
    requires:
     # 'hana' and 'xsuaa' resources extracted from CAP configuration
-    - name: myappl-uaa
     - name: myappl-db
+    - name: myappl-uaa
 
 
 resources:
  # services extracted from CAP configuration
  # 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
-# ------------------------------------------------------------
- - name: myappl-uaa
-# ------------------------------------------------------------
-   type: org.cloudfoundry.managed-service
-   parameters:
-     service: xsuaa
-     service-plan: application  
-     config:
-       xsappname: myappl-${space}    #  name + space dependency
-       tenant-mode: dedicated
 # ------------------------------------------------------------
  - name: myappl-db
 # ------------------------------------------------------------
@@ -66,5 +82,14 @@ resources:
      service-plan: hdi-shared
    properties:
      hdi-service-name: ${service-name}
-
-
+# ------------------------------------------------------------
+ - name: myappl-uaa
+# ------------------------------------------------------------
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: xsuaa
+     service-plan: application  
+     path: ./xs-security.json
+     config:
+       xsappname: myappl-${space}    #  name + space dependency
+       tenant-mode: dedicated

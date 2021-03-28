@@ -19,7 +19,7 @@
         "sqlite3": "5.0.0"
     },
     "scripts": {
-        "start": "cds run"
+        "start": "NODE_ENV=production cds run"
     },
     "cds": {
         "hana": {
@@ -30,28 +30,10 @@
                 "kind": "xsuaa"
             },
             "auth": {
-                "[production]": {
-                    "strategy": "JWT"
-                },
-                "[development]": {
-                    "strategy": "mock",
-                    "users": {
-                        "alice": {
-                            "roles": [
-                                "admin",
-                                "viewer"
-                            ]
-                        },
-                        "bob": {
-                            "roles": [
-                                "viewer"
-                            ]
-                        }
-                    }
-                }
+                "strategy": "JWT"
             },
             "db": {
-                "kind": "sql"
+                "kind": "hana"
             }
         }
     }

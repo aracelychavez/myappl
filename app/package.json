@@ -1,0 +1,13 @@
+{
+	"name": "myappl-app",
+	"description": "Node.js based application router service",
+	"engines": {
+		"node": "^8.0.0 || ^10.0.0"
+	},
+	"dependencies": {
+		"@sap/approuter": "9.1"
+	},
+	"scripts": {
+		"start": "node node_modules/@sap/approuter/approuter.js"
+	}
+}
