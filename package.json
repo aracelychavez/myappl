@@ -19,21 +19,41 @@
         "sqlite3": "5.0.0"
     },
     "scripts": {
-        "start": "NODE_ENV=production cds run"
+        "start": "cds run"
     },
     "cds": {
         "hana": {
             "deploy-format": "hdbtable"
         },
         "requires": {
-            "uaa": {
-                "kind": "xsuaa"
+            "[production]": {
+                "uaa": {
+                    "kind": "xsuaa"
+                }
             },
             "auth": {
-                "strategy": "JWT"
+                "[production]": {
+                    "strategy": "JWT"
+                },
+                "[development]": {
+                    "strategy": "mock",
+                    "users": {
+                        "alice": {
+                            "roles": [
+                                "admin",
+                                "viewer"
+                            ]
+                        },
+                        "bob": {
+                            "roles": [
+                                "viewer"
+                            ]
+                        }
+                    }
+                }
             },
             "db": {
-                "kind": "hana"
+                "kind": "sql"
             }
         }
     }
